@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
-// import { HiSwitchHorizontal } from 'react-icons/hi';
 import uuid from 'react-uuid';
 import 'react-dropdown/style.css';
 import './App.css';
@@ -40,7 +39,6 @@ const client = new ApolloClient({
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
-     // const foundUser = JSON.parse(loggedInUser);
       setUser(loggedInUser);
     }else{
 		const userName = `User_` + uuid();
@@ -61,34 +59,15 @@ useEffect(() => {
 	  console.log ((currenciesList.rates));
 	  setInfo(currenciesList.rates);
   });
-// 	Axios.get(
-// `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${from}.json`)
-// .then((res) => {
-// //	setInfo(res.data[from]);
-// 	console.log(res.data[from]);
 
-
-	
-	
-// 	// Axios.post(`https://4im56e5pnjgpbmuqrzcxtgv2lm.appsync-api.ap-southeast-1.amazonaws.com/graphql`, query, { headers })
-// 	// 	.then((response) => {
-// 	// 		console.log(response);
-// 	// 	})
-// 	 }
-// 	)
 }, [from]);
 
-// Calling the convert function whenever
-// a user switches the currency
+// Updating the currency list
 useEffect(() => {
 	setOptions(Object.keys(info));
 	//convert();
 }, [info]);
 
-// useEffect(() => {
-// 	setUserName(uuid());
-// 	localStorage.setItem('userName', userName);
-// }, [userName]);
 	
 // Function to convert the currency
 function convert() { 
@@ -113,7 +92,7 @@ function convert() {
 }
 
 
-// Function to convert the currency
+// Function to get Count
 function getCount() { 
 	const TRANSACTIONS_COUNT = `{  	
 		getTransactionsCount
@@ -130,7 +109,7 @@ function getCount() {
   });	
 }
 
-// Function to convert the currency
+// Function to get TotalValue in USD
 function getTotalValueInUsd() { 
 	const TRANSACTIONS_TOTAL_VALUE_IN_USD = `{  	
 		getValueInUSD
@@ -147,12 +126,6 @@ function getTotalValueInUsd() {
   });	
 }
 
-// Function to switch between two currency
-// function flip() {
-// 	var temp = from;
-// 	setFrom(to);
-// 	setTo(temp);
-// }
 
 
 return (
