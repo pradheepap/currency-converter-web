@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
 import { HiSwitchHorizontal } from 'react-icons/hi';
+import uuid from 'react-uuid';
 import 'react-dropdown/style.css';
 import './App.css';
 import {
@@ -18,32 +19,27 @@ const [from, setFrom] = useState("USD");
 const [to, setTo] = useState("SGD");
 const [options, setOptions] = useState([]);
 const [output, setOutput] = useState(0);
+const [userName, setUserName] = useState([]);
+
 
 const EXCHANGE_RATES = `{  	
 		listCurrencies
 }`;
 
-const CONVERT_CURRENCY = `{  	
-	convertCurrency(from: "USD", to: "SGD", units: 30) {
-		amount
-		from
-		output
-		rate
-	  }
-}`;
 
 
+// const userid = uuid();
 const client = new ApolloClient({
 	uri: `https://4im56e5pnjgpbmuqrzcxtgv2lm.appsync-api.ap-southeast-1.amazonaws.com/graphql`,
 	cache: new InMemoryCache(),
 	headers: {
-		'x-api-key': `da2-praw6gf5bff7rojzikysxrg2gm`
+		'x-api-key': `da2-praw6gf5bff7rojzikysxrg2gm`,
+		'userName' : userName
 	  }
   });
 
 // Calling the api whenever the dependency changes
 useEffect(() => {
-
 	client
   .query({
     query: gql `${EXCHANGE_RATES}`
@@ -75,11 +71,24 @@ useEffect(() => {
 // a user switches the currency
 useEffect(() => {
 	setOptions(Object.keys(info));
-	convert();
-}, [info])
+	//convert();
+}, [info]);
+
+// useEffect(() => {
+// 	setUserName(uuid());
+// 	localStorage.setItem('userName', userName);
+// }, [userName]);
 	
 // Function to convert the currency
-function convert() {
+function convert() { 
+	const CONVERT_CURRENCY = `{  	
+		convertCurrency(from: "${from}", to: "${to}" , units: ${input}) {
+			amount
+			from
+			output
+			rate
+		  }
+	}`;
 	client
   .query({
     query: gql `${CONVERT_CURRENCY}`
@@ -89,16 +98,15 @@ function convert() {
 	  const convertCurrencyOutput = (result.data.convertCurrency);
 	  console.log ((convertCurrencyOutput.output));
 	  setOutput(convertCurrencyOutput.output);
-  });
-	
+  });	
 }
 
 // Function to switch between two currency
-function flip() {
-	var temp = from;
-	setFrom(to);
-	setTo(temp);
-}
+// function flip() {
+// 	var temp = from;
+// 	setFrom(to);
+// 	setTo(temp);
+// }
 
 
 return (
@@ -119,10 +127,10 @@ return (
 					onChange={(e) => { setFrom(e.value) }}
 		value={from} placeholder="From" />
 		</div>
-		<div className="switch">
+		{/* <div className="switch">
 		<HiSwitchHorizontal size="30px"
 						onClick={() => { flip()}}/>
-		</div>
+		</div> */}
 		<div className="right">
 		<h3>To</h3>
 		<Dropdown options={options}
@@ -134,7 +142,6 @@ return (
 		<button onClick={()=>{convert()}}>Convert</button>
 		<h2>Converted Amount:</h2>
 		<p>{input+" "+from+" = "+output.toFixed(2) + " " + to}</p>
-
 	</div>
 	</div>
 );
