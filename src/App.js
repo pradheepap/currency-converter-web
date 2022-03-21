@@ -24,21 +24,16 @@ const [count, setCount] = useState("");
 const [usdvalue, setUsdValue] = useState("");
 
 
-
-
 const EXCHANGE_RATES = `{  	
 		listCurrencies
 }`;
 
 
-
-// const userid = uuid();
 const client = new ApolloClient({
 	uri: `https://4im56e5pnjgpbmuqrzcxtgv2lm.appsync-api.ap-southeast-1.amazonaws.com/graphql`,
 	cache: new InMemoryCache(),
 	headers: {
 		'x-api-key': `da2-praw6gf5bff7rojzikysxrg2gm`,
-		'userName' : user
 	  }
   });
 
@@ -98,7 +93,7 @@ useEffect(() => {
 // Function to convert the currency
 function convert() { 
 	const CONVERT_CURRENCY = `{  	
-		convertCurrency(from: "${from}", to: "${to}" , units: ${input}) {
+		convertCurrency(from: "${from}", to: "${to}" , units: ${input}, user: "${user}") {
 			amount
 			from
 			output
