@@ -45,10 +45,12 @@ const client = new ApolloClient({
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
+     // const foundUser = JSON.parse(loggedInUser);
+      setUser(loggedInUser);
     }else{
-		setUser(`User_` + uuid());
+		const userName = `User_` + uuid();
+		setUser(userName);
+		localStorage.setItem("user", userName);
 	}
   }, []);
 
@@ -190,6 +192,7 @@ return (
 		value={to} placeholder="To" />
 		</div>
 	</div>
+	<br/>
 	<div className="result">
 		<button onClick={()=>{convert()}}>Convert</button>
 		<h2>Converted Amount:</h2>
