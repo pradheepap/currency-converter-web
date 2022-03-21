@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
-import { HiSwitchHorizontal } from 'react-icons/hi';
+// import { HiSwitchHorizontal } from 'react-icons/hi';
 import uuid from 'react-uuid';
 import 'react-dropdown/style.css';
 import './App.css';
